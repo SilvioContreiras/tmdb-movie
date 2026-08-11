@@ -1,9 +1,13 @@
+import { AppProviders } from '@/app/providers'
 import { AppRouter } from '@/app/router'
 
 /**
- * Composition root.
- * Providers (Query, Favorites, etc.) will wrap AppRouter in later steps.
+ * Composition root: providers + router.
  */
 export function App() {
-  return <AppRouter />
+  return (
+    <AppProviders>
+      <AppRouter />
+    </AppProviders>
+  )
 }

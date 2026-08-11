@@ -1,5 +1,1 @@
-/**
- * favorites / domain
- * Favorite entity and ports (e.g. FavoritesRepository).
- */
-export {}
+export type { FavoritesRepository } from './favorites-repository'

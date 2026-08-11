@@ -1,5 +1,2 @@
-/**
- * favorites / application
- * Favorites use-cases and Context/hooks.
- */
-export {}
+export { FavoritesProvider } from './favorites-provider'
+export { useFavorites } from './use-favorites'

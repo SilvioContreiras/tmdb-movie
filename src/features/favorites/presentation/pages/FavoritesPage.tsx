@@ -5,7 +5,7 @@ export function FavoritesPage() {
         Favoritos
       </h1>
       <p className="mt-2 text-zinc-600">
-        Lista de favoritos — Context API será implementada nos próximos passos.
+        Lista de favoritos — em breve com a listagem completa.
       </p>
     </main>
   )

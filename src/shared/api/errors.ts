@@ -10,6 +10,19 @@ export class ApiError extends Error {
   }
 }
 
+function messageFromStatus(status?: number): string {
+  switch (status) {
+    case 401:
+      return 'Não autorizado. Verifique a chave da API do TMDB.'
+    case 404:
+      return 'Conteúdo não encontrado.'
+    case 429:
+      return 'Muitas requisições. Tente novamente em instantes.'
+    default:
+      return 'Falha na requisição à API.'
+  }
+}
+
 export function toApiError(error: unknown): ApiError {
   if (error instanceof ApiError) {
     return error
@@ -17,20 +30,19 @@ export function toApiError(error: unknown): ApiError {
 
   if (isAxiosError(error)) {
     const status = error.response?.status
-    const apiMessage =
-      typeof error.response?.data === 'object' &&
-      error.response.data !== null &&
-      'status_message' in error.response.data &&
-      typeof error.response.data.status_message === 'string'
-        ? error.response.data.status_message
-        : error.message
 
-    return new ApiError(apiMessage || 'Falha na requisição à API', status)
+    if (!error.response) {
+      return new ApiError(
+        'Falha de conexão. Verifique sua internet e tente novamente.',
+      )
+    }
+
+    return new ApiError(messageFromStatus(status), status)
   }
 
-  if (error instanceof Error) {
+  if (error instanceof Error && error.message.trim()) {
     return new ApiError(error.message)
   }
 
-  return new ApiError('Erro inesperado ao comunicar com a API')
+  return new ApiError('Erro inesperado ao comunicar com a API.')
 }

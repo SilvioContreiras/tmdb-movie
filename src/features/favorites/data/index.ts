@@ -1,5 +1,4 @@
-/**
- * favorites / data
- * Persistence adapters (localStorage, etc.).
- */
-export {}
+export {
+  LocalStorageFavoritesRepository,
+  favoritesRepository,
+} from './local-storage-favorites.repository'

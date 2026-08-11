@@ -3,7 +3,7 @@ function requireEnv(name: keyof ImportMetaEnv): string {
 
   if (!value) {
     throw new Error(
-      `Missing environment variable: ${name}. Copy .env.example to .env and fill in the values.`,
+      `Variável de ambiente ausente: ${name}. Copie .env.example para .env e preencha os valores.`,
     )
   }
 
@@ -11,8 +11,8 @@ function requireEnv(name: keyof ImportMetaEnv): string {
 }
 
 /**
- * Centralized, typed access to env vars (Single Responsibility).
- * Call sites should depend on this module, not on import.meta.env directly.
+ * Acesso tipado e centralizado às variáveis de ambiente.
+ * O restante do app deve usar este módulo em vez de import.meta.env diretamente.
  */
 export const env = {
   tmdbApiKey: requireEnv('VITE_TMDB_API_KEY'),
