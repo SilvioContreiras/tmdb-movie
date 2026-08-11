@@ -1,5 +1,8 @@
-/**
- * movies / domain
- * Entities, value objects and ports (interfaces). No React, no HTTP.
- */
-export {}
+export type {
+  Genre,
+  MovieDetails,
+  MovieId,
+  MovieSummary,
+  PaginatedMovies,
+} from './movie'
+export type { MovieRepository } from './movie-repository'

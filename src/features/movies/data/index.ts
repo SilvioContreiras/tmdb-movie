@@ -1,5 +1,12 @@
-/**
- * movies / data
- * TMDB adapters, DTOs, mappers and repository implementations.
- */
-export {}
+export type {
+  TmdbGenreDto,
+  TmdbMovieDetailsDto,
+  TmdbMovieListItemDto,
+  TmdbPaginatedMoviesDto,
+} from './tmdb/tmdb-movie.dto'
+export {
+  mapMovieDetails,
+  mapMovieSummary,
+  mapPaginatedMovies,
+} from './tmdb/map-tmdb-movie'
+export { TmdbMovieRepository, movieRepository } from './tmdb/tmdb-movie.repository'
