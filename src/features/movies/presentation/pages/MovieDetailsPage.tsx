@@ -81,10 +81,10 @@ export function MovieDetailsPage() {
             <img
               src={imageUrl}
               alt={`Imagem de ${movie.title}`}
-              className="aspect-video w-full object-cover lg:aspect-[4/3]"
+              className="aspect-video w-full object-cover lg:aspect-4/3"
             />
           ) : (
-            <div className="flex aspect-video items-center justify-center text-sm text-zinc-500 lg:aspect-[4/3]">
+            <div className="flex aspect-video items-center justify-center text-sm text-zinc-500 lg:aspect-4/3">
               Sem imagem disponível
             </div>
           )}
