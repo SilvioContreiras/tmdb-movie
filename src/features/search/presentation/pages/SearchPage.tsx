@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSearchMovies } from '@/features/movies/application'
+import { MIN_SEARCH_QUERY_LENGTH } from '@/features/search/domain'
 import { ApiError } from '@/shared/api'
 import {
   ErrorState,
@@ -12,6 +13,7 @@ import {
 export function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
+  const canSearch = query.length >= MIN_SEARCH_QUERY_LENGTH
 
   const {
     data,
@@ -36,17 +38,8 @@ export function SearchPage() {
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
-  if (!query) {
-    return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-          Busca
-        </h1>
-        <p className="mt-2 text-sm text-zinc-600">
-          Digite um termo na barra de busca do header para encontrar filmes.
-        </p>
-      </main>
-    )
+  if (!canSearch) {
+    return <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6" />
   }
 
   if (isPending || (isFetching && !data)) {

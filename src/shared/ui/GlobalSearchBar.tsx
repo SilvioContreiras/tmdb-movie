@@ -1,22 +1,66 @@
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { searchPath } from '@/app/router/paths'
-import type { FormEvent } from 'react'
+import { useEffect, useState, type SubmitEvent } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { paths, searchPath } from '@/app/router/paths'
+import {
+  MIN_SEARCH_QUERY_LENGTH,
+  SEARCH_DEBOUNCE_MS,
+} from '@/features/search/domain'
 
 export function GlobalSearchBar() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [searchParams] = useSearchParams()
   const queryFromUrl = searchParams.get('q') ?? ''
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const query = String(formData.get('q') ?? '').trim()
+  const [value, setValue] = useState(queryFromUrl)
+  const [urlSnapshot, setUrlSnapshot] = useState(queryFromUrl)
+  const [isFocused, setIsFocused] = useState(false)
 
-    if (!query) {
+  if (queryFromUrl !== urlSnapshot) {
+    setUrlSnapshot(queryFromUrl)
+
+    if (!isFocused) {
+      setValue(queryFromUrl)
+    }
+  }
+
+  useEffect(() => {
+    const trimmed = value.trim()
+    const hasActiveSearch =
+      location.pathname === paths.search ||
+      queryFromUrl.trim().length >= MIN_SEARCH_QUERY_LENGTH
+
+    if (trimmed.length < MIN_SEARCH_QUERY_LENGTH) {
+      if (hasActiveSearch) {
+        navigate(paths.home, { replace: true })
+      }
       return
     }
 
-    navigate(searchPath(query))
+    if (trimmed === queryFromUrl.trim()) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      navigate(searchPath(trimmed), {
+        replace: location.pathname === paths.search,
+      })
+    }, SEARCH_DEBOUNCE_MS)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [value, queryFromUrl, location.pathname, navigate])
+
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const trimmed = value.trim()
+
+    if (trimmed.length < MIN_SEARCH_QUERY_LENGTH) {
+      return
+    }
+
+    navigate(searchPath(trimmed), {
+      replace: location.pathname === paths.search,
+    })
   }
 
   return (
@@ -30,11 +74,13 @@ export function GlobalSearchBar() {
         Buscar filmes
       </label>
       <input
-        key={queryFromUrl}
         id="global-search"
         name="q"
         type="search"
-        defaultValue={queryFromUrl}
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         placeholder="Buscar filmes..."
         className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200"
       />
