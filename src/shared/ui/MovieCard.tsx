@@ -5,9 +5,12 @@ import type { MovieSummary } from '@/features/movies/domain'
 import { buildTmdbImageUrl } from '@/shared/lib'
 import { HighlightedText } from './HighlightedText'
 
+type MovieCardAction = 'toggle-favorite' | 'remove-favorite'
+
 type MovieCardProps = {
   movie: MovieSummary
   highlightQuery?: string
+  action?: MovieCardAction
 }
 
 function FavoriteIcon({ filled }: { filled: boolean }) {
@@ -29,10 +32,34 @@ function FavoriteIcon({ filled }: { filled: boolean }) {
   )
 }
 
-export function MovieCard({ movie, highlightQuery }: MovieCardProps) {
+function TrashIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="size-5"
+      aria-hidden
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 6h18M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6m2 0v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6h10ZM10 11v6M14 11v6"
+      />
+    </svg>
+  )
+}
+
+export function MovieCard({
+  movie,
+  highlightQuery,
+  action = 'toggle-favorite',
+}: MovieCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const favorited = isFavorite(movie.id)
   const posterUrl = buildTmdbImageUrl(movie.posterPath, 'w300')
+  const isRemoveAction = action === 'remove-favorite'
 
   return (
     <article className="group relative overflow-hidden rounded-lg bg-zinc-100 shadow-sm ring-1 ring-zinc-200 transition hover:shadow-md">
@@ -77,18 +104,26 @@ export function MovieCard({ movie, highlightQuery }: MovieCardProps) {
         }}
         className={[
           'absolute top-2 right-2 rounded-full bg-white/90 p-2 shadow-sm backdrop-blur transition',
-          favorited
-            ? 'text-red-600 hover:bg-white'
-            : 'text-zinc-500 hover:bg-white hover:text-red-600',
+          isRemoveAction
+            ? 'text-zinc-600 hover:bg-white hover:text-red-600'
+            : favorited
+              ? 'text-red-600 hover:bg-white'
+              : 'text-zinc-500 hover:bg-white hover:text-red-600',
         ].join(' ')}
         aria-label={
-          favorited
+          isRemoveAction
             ? `Remover ${movie.title} dos favoritos`
-            : `Adicionar ${movie.title} aos favoritos`
+            : favorited
+              ? `Remover ${movie.title} dos favoritos`
+              : `Adicionar ${movie.title} aos favoritos`
         }
-        aria-pressed={favorited}
+        aria-pressed={isRemoveAction ? undefined : favorited}
       >
-        <FavoriteIcon filled={favorited} />
+        {isRemoveAction ? (
+          <TrashIcon />
+        ) : (
+          <FavoriteIcon filled={favorited} />
+        )}
       </button>
     </article>
   )
