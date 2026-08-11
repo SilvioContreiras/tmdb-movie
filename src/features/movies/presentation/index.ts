@@ -1,5 +1,2 @@
-/**
- * movies / presentation
- * Pages and feature-specific UI components.
- */
-export {}
+export { HomePage } from './pages/HomePage'
+export { MovieDetailsPage } from './pages/MovieDetailsPage'

@@ -1,5 +1,1 @@
-/**
- * search / presentation
- * Search page and related UI.
- */
-export {}
+export { SearchPage } from './pages/SearchPage'
