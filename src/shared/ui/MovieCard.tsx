@@ -3,9 +3,11 @@ import { movieDetailsPath } from '@/app/router/paths'
 import { useFavorites } from '@/features/favorites/application'
 import type { MovieSummary } from '@/features/movies/domain'
 import { buildTmdbImageUrl } from '@/shared/lib'
+import { HighlightedText } from './HighlightedText'
 
 type MovieCardProps = {
   movie: MovieSummary
+  highlightQuery?: string
 }
 
 function FavoriteIcon({ filled }: { filled: boolean }) {
@@ -27,7 +29,7 @@ function FavoriteIcon({ filled }: { filled: boolean }) {
   )
 }
 
-export function MovieCard({ movie }: MovieCardProps) {
+export function MovieCard({ movie, highlightQuery }: MovieCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const favorited = isFavorite(movie.id)
   const posterUrl = buildTmdbImageUrl(movie.posterPath, 'w300')
@@ -38,7 +40,7 @@ export function MovieCard({ movie }: MovieCardProps) {
         to={movieDetailsPath(movie.id)}
         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
       >
-        <div className="aspect-[2/3] bg-zinc-200">
+        <div className="aspect-2/3 bg-zinc-200">
           {posterUrl ? (
             <img
               src={posterUrl}
@@ -55,7 +57,7 @@ export function MovieCard({ movie }: MovieCardProps) {
 
         <div className="space-y-1 p-3">
           <h2 className="line-clamp-2 text-sm font-semibold text-zinc-900">
-            {movie.title}
+            <HighlightedText text={movie.title} query={highlightQuery} />
           </h2>
           <p className="text-xs text-zinc-600">
             Nota TMDB:{' '}

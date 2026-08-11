@@ -1,20 +1,11 @@
-import { useEffect, useRef, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { searchPath } from '@/app/router/paths'
+import type { FormEvent } from 'react'
 
-type GlobalSearchBarProps = {
-  initialQuery?: string
-}
-
-export function GlobalSearchBar({ initialQuery = '' }: GlobalSearchBarProps) {
+export function GlobalSearchBar() {
   const navigate = useNavigate()
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (inputRef.current && initialQuery) {
-      inputRef.current.value = initialQuery
-    }
-  }, [initialQuery])
+  const [searchParams] = useSearchParams()
+  const queryFromUrl = searchParams.get('q') ?? ''
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -39,11 +30,11 @@ export function GlobalSearchBar({ initialQuery = '' }: GlobalSearchBarProps) {
         Buscar filmes
       </label>
       <input
-        ref={inputRef}
+        key={queryFromUrl}
         id="global-search"
         name="q"
         type="search"
-        defaultValue={initialQuery}
+        defaultValue={queryFromUrl}
         placeholder="Buscar filmes..."
         className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200"
       />
