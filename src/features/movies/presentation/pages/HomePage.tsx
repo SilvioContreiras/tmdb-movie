@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react'
+import { useFavorites } from '@/features/favorites/application'
 import { usePopularMovies } from '@/features/movies/application'
 import { ApiError } from '@/shared/api'
 import {
@@ -9,6 +10,7 @@ import {
 } from '@/shared/ui'
 
 export function HomePage() {
+  const { isFavorite, toggleFavorite } = useFavorites()
   const {
     data,
     isPending,
@@ -60,7 +62,12 @@ export function HomePage() {
         <>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                isFavorite={isFavorite(movie.id)}
+                onFavoriteAction={() => toggleFavorite(movie)}
+              />
             ))}
           </div>
 

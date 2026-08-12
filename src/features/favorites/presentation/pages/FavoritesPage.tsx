@@ -12,7 +12,7 @@ import { FavoritesEmptyState } from '../components/FavoritesEmptyState'
 import { FavoritesSortSelect } from '../components/FavoritesSortSelect'
 
 export function FavoritesPage() {
-  const { favorites } = useFavorites()
+  const { favorites, toggleFavorite } = useFavorites()
   const [searchParams] = useSearchParams()
   const [sort, setSort] = useState<FavoritesSortOption>('title-asc')
 
@@ -62,6 +62,8 @@ export function FavoritesPage() {
               movie={movie}
               action="remove-favorite"
               highlightQuery={activeQuery || undefined}
+              isFavorite
+              onFavoriteAction={() => toggleFavorite(movie)}
             />
           ))}
         </div>

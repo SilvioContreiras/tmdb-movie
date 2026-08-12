@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { movieDetailsPath } from '@/app/router/paths'
-import { useFavorites } from '@/features/favorites/application'
 import type { MovieSummary } from '@/features/movies/domain'
 import { buildTmdbImageUrl } from '@/shared/lib'
 import { HighlightedText } from './HighlightedText'
@@ -9,6 +8,8 @@ type MovieCardAction = 'toggle-favorite' | 'remove-favorite'
 
 type MovieCardProps = {
   movie: MovieSummary
+  isFavorite: boolean
+  onFavoriteAction: () => void
   highlightQuery?: string
   action?: MovieCardAction
 }
@@ -53,11 +54,11 @@ function TrashIcon() {
 
 export function MovieCard({
   movie,
+  isFavorite,
+  onFavoriteAction,
   highlightQuery,
   action = 'toggle-favorite',
 }: MovieCardProps) {
-  const { isFavorite, toggleFavorite } = useFavorites()
-  const favorited = isFavorite(movie.id)
   const posterUrl = buildTmdbImageUrl(movie.posterPath, 'w300')
   const isRemoveAction = action === 'remove-favorite'
 
@@ -97,29 +98,27 @@ export function MovieCard({
         onClick={(event) => {
           event.preventDefault()
           event.stopPropagation()
-          toggleFavorite(movie)
+          onFavoriteAction()
         }}
         className={[
           'absolute top-2 right-2 rounded-full bg-app-bg/80 p-2 shadow-sm backdrop-blur transition hover:bg-app-bg',
           isRemoveAction
             ? 'text-app-text hover:text-favorite'
-            : favorited
+            : isFavorite
               ? 'text-favorite'
               : 'text-app-muted hover:text-favorite',
         ].join(' ')}
         aria-label={
-          isRemoveAction
+          isRemoveAction || isFavorite
             ? `Remover ${movie.title} dos favoritos`
-            : favorited
-              ? `Remover ${movie.title} dos favoritos`
-              : `Adicionar ${movie.title} aos favoritos`
+            : `Adicionar ${movie.title} aos favoritos`
         }
-        aria-pressed={isRemoveAction ? undefined : favorited}
+        aria-pressed={isRemoveAction ? undefined : isFavorite}
       >
         {isRemoveAction ? (
           <TrashIcon />
         ) : (
-          <FavoriteIcon filled={favorited} />
+          <FavoriteIcon filled={isFavorite} />
         )}
       </button>
     </article>

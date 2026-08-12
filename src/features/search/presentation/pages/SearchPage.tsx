@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useFavorites } from '@/features/favorites/application'
 import { useSearchMovies } from '@/features/movies/application'
 import { MIN_SEARCH_QUERY_LENGTH } from '@/features/search/domain'
 import { ApiError } from '@/shared/api'
@@ -13,6 +14,7 @@ import {
 
 export function SearchPage() {
   const [searchParams] = useSearchParams()
+  const { isFavorite, toggleFavorite } = useFavorites()
   const query = searchParams.get('q')?.trim() ?? ''
   const canSearch = query.length >= MIN_SEARCH_QUERY_LENGTH
 
@@ -90,6 +92,8 @@ export function SearchPage() {
                 key={movie.id}
                 movie={movie}
                 highlightQuery={query}
+                isFavorite={isFavorite(movie.id)}
+                onFavoriteAction={() => toggleFavorite(movie)}
               />
             ))}
           </div>
