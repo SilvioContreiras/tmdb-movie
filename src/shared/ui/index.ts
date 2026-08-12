@@ -1,7 +1,5 @@
 export { Spinner } from './Spinner'
 export { ErrorState } from './ErrorState'
-export { SearchBar } from './SearchBar'
-export { MovieCard } from './MovieCard'
 export { InfiniteScrollSentinel } from './InfiniteScrollSentinel'
 export { HighlightedText } from './HighlightedText'
 export { BrandLogoIcon } from './BrandLogoIcon'

@@ -79,10 +79,10 @@ Organização **por feature**, com camadas pragmáticas (Clean Architecture sem 
 ```
 src/
 ├── app/                 # composition root (providers, router, layout, styles)
-├── shared/              # api, config, lib, ui genérico
+├── shared/              # api, config, lib, ui genérico (sem dependência de features)
 ├── features/
-│   ├── movies/          # popular, detalhes, repositório TMDB
-│   ├── search/          # política de busca + página + hook da SearchBar
+│   ├── movies/          # popular, detalhes, MovieCard, repositório TMDB
+│   ├── search/          # política de busca, SearchBar, página
 │   └── favorites/       # context, localStorage, sort/filter, página
 └── test/                # setup, MSW, fixtures, render helpers
 ```

@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { paths } from '@/app/router/paths'
-import { BrandLogoIcon, SearchBar } from '@/shared/ui'
+import { BrandLogoIcon } from '@/shared/ui'
+import { SearchBar } from '@/features/search/presentation'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [

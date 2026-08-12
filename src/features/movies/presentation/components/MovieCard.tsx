@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { movieDetailsPath } from '@/app/router/paths'
 import type { MovieSummary } from '@/features/movies/domain'
 import { buildTmdbImageUrl } from '@/shared/lib'
-import { HighlightedText } from './HighlightedText'
+import { HighlightedText } from '@/shared/ui'
 
 type MovieCardAction = 'toggle-favorite' | 'remove-favorite'
 

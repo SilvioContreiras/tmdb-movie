@@ -5,9 +5,9 @@ import { ApiError } from '@/shared/api'
 import {
   ErrorState,
   InfiniteScrollSentinel,
-  MovieCard,
   Spinner,
 } from '@/shared/ui'
+import { MovieCard } from '../components/MovieCard'
 
 export function HomePage() {
   const { isFavorite, toggleFavorite } = useFavorites()

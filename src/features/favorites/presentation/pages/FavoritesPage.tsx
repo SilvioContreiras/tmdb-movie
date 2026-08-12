@@ -6,8 +6,8 @@ import {
   sortFavorites,
   type FavoritesSortOption,
 } from '@/features/favorites/domain'
+import { MovieCard } from '@/features/movies/presentation'
 import { MIN_SEARCH_QUERY_LENGTH } from '@/features/search/domain'
-import { MovieCard } from '@/shared/ui'
 import { FavoritesEmptyState } from '../components/FavoritesEmptyState'
 import { FavoritesSortSelect } from '../components/FavoritesSortSelect'
 

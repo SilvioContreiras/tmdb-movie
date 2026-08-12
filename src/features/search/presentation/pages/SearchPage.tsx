@@ -2,13 +2,13 @@ import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useFavorites } from '@/features/favorites/application'
 import { useSearchMovies } from '@/features/movies/application'
+import { MovieCard } from '@/features/movies/presentation'
 import { MIN_SEARCH_QUERY_LENGTH } from '@/features/search/domain'
 import { ApiError } from '@/shared/api'
 import {
   ErrorState,
   HighlightedText,
   InfiniteScrollSentinel,
-  MovieCard,
   Spinner,
 } from '@/shared/ui'
 
