@@ -17,9 +17,14 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     favoritesRepository.getAll(),
   )
 
-  const isFavorite = useCallback(
-    (id: MovieId) => favorites.some((movie) => movie.id === id),
+  const favoriteIds = useMemo(
+    () => new Set(favorites.map((movie) => movie.id)),
     [favorites],
+  )
+
+  const isFavorite = useCallback(
+    (id: MovieId) => favoriteIds.has(id),
+    [favoriteIds],
   )
 
   const toggleFavorite = useCallback((movie: MovieSummary) => {
@@ -29,8 +34,12 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
         ? current.filter((item) => item.id !== movie.id)
         : [...current, movie]
 
-      favoritesRepository.saveAll(next)
-      return next
+      try {
+        favoritesRepository.saveAll(next)
+        return next
+      } catch {
+        return current
+      }
     })
   }, [])
 

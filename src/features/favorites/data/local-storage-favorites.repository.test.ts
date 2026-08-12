@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { LocalStorageFavoritesRepository } from '@/features/favorites/data'
 import { createMovieSummary } from '@/test/fixtures/movie'
 
@@ -9,6 +9,7 @@ describe('LocalStorageFavoritesRepository', () => {
 
   beforeEach(() => {
     localStorage.clear()
+    vi.restoreAllMocks()
   })
 
   it('retorna lista vazia quando não há dados salvos', () => {
@@ -37,5 +38,25 @@ describe('LocalStorageFavoritesRepository', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ id: 1 }))
 
     expect(repository.getAll()).toEqual([])
+  })
+
+  it('ignora itens com formato inválido no array salvo', () => {
+    const valid = createMovieSummary({ id: 1, title: 'Avatar' })
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([valid, { id: 'bad' }, null, { title: 'Sem id' }]),
+    )
+
+    expect(repository.getAll()).toEqual([valid])
+  })
+
+  it('lança erro amigável quando o localStorage falha ao salvar', () => {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('QuotaExceededError')
+    })
+
+    expect(() =>
+      repository.saveAll([createMovieSummary({ id: 1 })]),
+    ).toThrow(/Não foi possível salvar os favoritos/i)
   })
 })
