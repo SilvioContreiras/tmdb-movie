@@ -26,6 +26,18 @@ npm run dev            # http://localhost:5173
 
 CI (GitHub Actions): `lint` → `test:run` → `build` com Node 22.
 
+## Deploy (Vercel)
+
+1. Importe o repo em [vercel.com/new](https://vercel.com/new)
+2. Framework: **Vite** (ou deixe o `vercel.json`)
+3. Em **Environment Variables**, adicione:
+   - `VITE_TMDB_API_KEY`
+   - `VITE_TMDB_BASE_URL` = `https://api.themoviedb.org/3`
+   - `VITE_TMDB_IMAGE_BASE_URL` = `https://image.tmdb.org/t/p`
+4. Deploy
+
+O `vercel.json` já define build (`dist`) e rewrite SPA para o React Router.
+
 ## Rotas
 
 | Rota | Descrição |
