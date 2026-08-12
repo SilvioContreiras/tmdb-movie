@@ -27,4 +27,8 @@
   #root {
     @apply min-h-dvh;
   }
+
+  input[type='search']::-webkit-search-cancel-button {
+    cursor: pointer;
+  }
 }

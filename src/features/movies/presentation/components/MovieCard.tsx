@@ -101,7 +101,7 @@ export function MovieCard({
           onFavoriteAction()
         }}
         className={[
-          'absolute top-2 right-2 rounded-full bg-app-bg/80 p-2 shadow-sm backdrop-blur transition hover:bg-app-bg',
+          'absolute top-2 right-2 cursor-pointer rounded-full bg-app-bg/80 p-2 shadow-sm backdrop-blur transition hover:bg-app-bg',
           isRemoveAction
             ? 'text-app-text hover:text-favorite'
             : isFavorite

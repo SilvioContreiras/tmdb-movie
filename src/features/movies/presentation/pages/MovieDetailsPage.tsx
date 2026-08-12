@@ -151,7 +151,7 @@ export function MovieDetailsPage() {
             type="button"
             onClick={() => toggleFavorite(movie)}
             className={[
-              'inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold text-white transition',
+              'inline-flex cursor-pointer items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold text-white transition',
               favorited
                 ? 'bg-app-surface-elevated hover:bg-app-border'
                 : 'bg-favorite hover:bg-favorite/90',
