@@ -68,6 +68,7 @@ UI → hooks (Query) → port (`MovieRepository`) → adapter TMDB. Favoritos: C
 - **Query** para server state; **Context** só para favoritos
 - **Ports/adapters** para isolar API/storage e facilitar testes
 - **URL (`?q=`)** como estado da busca (deep-link + sync do header)
+- **Code splitting por rota** (`React.lazy` + `Suspense`)
 - Key `VITE_*` fica no browser (aceitável no desafio; em produção usaria BFF/proxy)
 
 ## Créditos
