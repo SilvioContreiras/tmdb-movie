@@ -2,6 +2,7 @@ import { http, HttpResponse, type RequestHandler } from 'msw'
 import { env } from '@/shared/config'
 import {
   createTmdbListItemDto,
+  createTmdbMovieDetailsDto,
   createTmdbPaginatedMoviesDto,
 } from '@/test/fixtures/tmdb'
 
@@ -26,6 +27,30 @@ const popularMovies = createTmdbPaginatedMoviesDto({
 export const handlers: RequestHandler[] = [
   http.get(`${env.tmdbBaseUrl}/movie/popular`, () => {
     return HttpResponse.json(popularMovies)
+  }),
+
+  http.get(`${env.tmdbBaseUrl}/movie/:id`, ({ params }) => {
+    const id = Number(params.id)
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return HttpResponse.json(
+        { status_message: 'Invalid id' },
+        { status: 404 },
+      )
+    }
+
+    return HttpResponse.json(
+      createTmdbMovieDetailsDto({
+        id,
+        title: id === 550 ? 'Clube da Luta' : `Filme ${id}`,
+        overview:
+          id === 550
+            ? 'Um homem deprimido forma um clube secreto.'
+            : 'Sinopse de exemplo.',
+        vote_average: id === 550 ? 8.4 : 7.5,
+        genres: [{ id: 18, name: 'Drama' }],
+      }),
+    )
   }),
 
   http.get(`${env.tmdbBaseUrl}/search/movie`, ({ request }) => {

@@ -72,6 +72,17 @@ App em `http://localhost:5173`.
 | `npm run test` | Vitest em watch |
 | `npm run test:run` | Vitest one-shot (CI) |
 
+## CI
+
+O workflow GitHub Actions (`.github/workflows/ci.yml`) roda em push/`pull_request` para `main`:
+
+1. `npm ci`
+2. `npm run lint`
+3. `npm run test:run`
+4. `npm run build`
+
+Usa Node da versão definida em `.nvmrc` (22).
+
 ## Arquitetura
 
 Organização **por feature**, com camadas pragmáticas (Clean Architecture sem over-engineering):
