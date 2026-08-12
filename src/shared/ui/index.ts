@@ -1,6 +1,6 @@
 export { Spinner } from './Spinner'
 export { ErrorState } from './ErrorState'
-export { GlobalSearchBar } from './GlobalSearchBar'
+export { SearchBar } from './SearchBar'
 export { MovieCard } from './MovieCard'
 export { InfiniteScrollSentinel } from './InfiniteScrollSentinel'
 export { HighlightedText } from './HighlightedText'

@@ -1,6 +1,6 @@
 import { useDebouncedSearchParam } from '@/features/search/application'
 
-export function GlobalSearchBar() {
+export function SearchBar() {
   const {
     value,
     setValue,
@@ -16,16 +16,14 @@ export function GlobalSearchBar() {
       className="min-w-0 flex-1"
       role="search"
       aria-label={
-        isOnFavoritesPage
-          ? 'Filtrar filmes favoritos'
-          : 'Busca global de filmes'
+        isOnFavoritesPage ? 'Filtrar filmes favoritos' : 'Buscar filmes'
       }
     >
-      <label htmlFor="global-search" className="sr-only">
+      <label htmlFor="search" className="sr-only">
         {isOnFavoritesPage ? 'Filtrar favoritos' : 'Buscar filmes'}
       </label>
       <input
-        id="global-search"
+        id="search"
         name="q"
         type="search"
         value={value}

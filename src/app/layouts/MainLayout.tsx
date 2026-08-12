@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { paths } from '@/app/router/paths'
-import { BrandLogoIcon, GlobalSearchBar } from '@/shared/ui'
+import { BrandLogoIcon, SearchBar } from '@/shared/ui'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [
@@ -36,7 +36,7 @@ export function MainLayout() {
             </nav>
           </div>
 
-          <GlobalSearchBar />
+          <SearchBar />
 
           <nav
             className="hidden items-center gap-1 sm:flex"
