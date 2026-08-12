@@ -3,9 +3,6 @@ type HighlightedTextProps = {
   query?: string
 }
 
-/**
- * Destaca trechos do texto que correspondem ao termo buscado (case-insensitive).
- */
 export function HighlightedText({ text, query }: HighlightedTextProps) {
   const term = query?.trim()
 
@@ -22,7 +19,7 @@ export function HighlightedText({ text, query }: HighlightedTextProps) {
         part.toLowerCase() === term.toLowerCase() ? (
           <mark
             key={`${part}-${index}`}
-            className="rounded-sm bg-amber-200 text-inherit"
+            className="rounded-sm bg-highlight px-0.5 font-semibold text-app-bg"
           >
             {part}
           </mark>

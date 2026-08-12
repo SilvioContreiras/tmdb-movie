@@ -19,29 +19,22 @@ export function FavoritesPage() {
 
   if (favorites.length === 0) {
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <FavoritesEmptyState />
       </main>
     )
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-            Favoritos
-          </h1>
-          <p className="mt-1 text-sm text-zinc-600">
-            {favorites.length}{' '}
-            {favorites.length === 1 ? 'filme salvo' : 'filmes salvos'}
-          </p>
-        </div>
-
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <div className="mb-6 space-y-4">
+        <h1 className="text-2xl font-bold tracking-tight text-app-text sm:text-3xl">
+          Meus Filmes Favoritos
+        </h1>
         <FavoritesSortSelect value={sort} onChange={setSort} />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {sortedFavorites.map((movie) => (
           <MovieCard key={movie.id} movie={movie} action="remove-favorite" />
         ))}

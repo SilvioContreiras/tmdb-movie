@@ -5,12 +5,12 @@ type SpinnerProps = {
 export function Spinner({ label = 'Carregando...' }: SpinnerProps) {
   return (
     <div
-      className="flex items-center justify-center gap-3 py-10 text-zinc-600"
+      className="flex items-center justify-center gap-3 py-10 text-app-muted"
       role="status"
       aria-live="polite"
     >
       <span
-        className="size-5 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-800"
+        className="size-5 animate-spin rounded-full border-2 border-app-border border-t-brand"
         aria-hidden
       />
       <span className="text-sm">{label}</span>

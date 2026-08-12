@@ -33,7 +33,7 @@ export function HomePage() {
 
   if (isPending) {
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <Spinner label="Carregando filmes populares..." />
       </main>
     )
@@ -46,28 +46,19 @@ export function HomePage() {
         : 'Não foi possível carregar os filmes populares.'
 
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <ErrorState message={message} onRetry={() => void refetch()} />
       </main>
     )
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-          Filmes populares
-        </h1>
-        <p className="mt-1 text-sm text-zinc-600">
-          Explore o catálogo e salve seus favoritos.
-        </p>
-      </div>
-
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       {movies.length === 0 ? (
-        <p className="text-sm text-zinc-600">Nenhum filme encontrado.</p>
+        <p className="text-sm text-app-muted">Nenhum filme encontrado.</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {movies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
@@ -83,7 +74,7 @@ export function HomePage() {
           ) : null}
 
           {!hasNextPage && movies.length > 0 ? (
-            <p className="py-6 text-center text-sm text-zinc-500">
+            <p className="py-6 text-center text-sm text-app-muted">
               Você chegou ao fim da lista.
             </p>
           ) : null}

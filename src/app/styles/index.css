@@ -1,12 +1,27 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-app-bg: #1a1d24;
+  --color-app-surface: #252830;
+  --color-app-surface-elevated: #2e323c;
+  --color-app-border: #3a3f4b;
+  --color-app-text: #f3f4f6;
+  --color-app-muted: #9ca3af;
+  --color-brand: #f59e0b;
+  --color-brand-accent: #8b5cf6;
+  --color-nav-active: #3b82f6;
+  --color-rating: #f59e0b;
+  --color-favorite: #ef4444;
+  --color-highlight: #fbbf24;
+}
+
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
-    @apply m-0 min-h-dvh bg-zinc-50 text-zinc-900 antialiased;
+    @apply m-0 min-h-dvh bg-app-bg text-app-text antialiased;
   }
 
   #root {

@@ -62,12 +62,12 @@ export function MovieCard({
   const isRemoveAction = action === 'remove-favorite'
 
   return (
-    <article className="group relative overflow-hidden rounded-lg bg-zinc-100 shadow-sm ring-1 ring-zinc-200 transition hover:shadow-md">
+    <article className="group relative overflow-hidden rounded-xl bg-app-surface shadow-sm ring-1 ring-app-border/60 transition hover:ring-app-border">
       <Link
         to={movieDetailsPath(movie.id)}
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-nav-active"
       >
-        <div className="aspect-2/3 bg-zinc-200">
+        <div className="aspect-2/3 bg-app-surface-elevated">
           {posterUrl ? (
             <img
               src={posterUrl}
@@ -76,22 +76,19 @@ export function MovieCard({
               loading="lazy"
             />
           ) : (
-            <div className="flex size-full items-center justify-center px-3 text-center text-sm text-zinc-500">
+            <div className="flex size-full items-center justify-center px-3 text-center text-sm text-app-muted">
               Sem poster
             </div>
           )}
         </div>
 
-        <div className="space-y-1 p-3">
-          <h2 className="line-clamp-2 text-sm font-semibold text-zinc-900">
+        <div className="space-y-2 bg-app-surface p-3">
+          <h2 className="line-clamp-2 min-h-10 text-sm font-semibold text-app-text">
             <HighlightedText text={movie.title} query={highlightQuery} />
           </h2>
-          <p className="text-xs text-zinc-600">
-            Nota TMDB:{' '}
-            <span className="font-medium text-zinc-800">
-              {movie.voteAverage.toFixed(1)}
-            </span>
-          </p>
+          <span className="inline-flex rounded-md bg-rating px-2 py-0.5 text-xs font-bold text-app-bg">
+            {movie.voteAverage.toFixed(1)}
+          </span>
         </div>
       </Link>
 
@@ -103,12 +100,12 @@ export function MovieCard({
           toggleFavorite(movie)
         }}
         className={[
-          'absolute top-2 right-2 rounded-full bg-white/90 p-2 shadow-sm backdrop-blur transition',
+          'absolute top-2 right-2 rounded-full bg-app-bg/80 p-2 shadow-sm backdrop-blur transition hover:bg-app-bg',
           isRemoveAction
-            ? 'text-zinc-600 hover:bg-white hover:text-red-600'
+            ? 'text-app-text hover:text-favorite'
             : favorited
-              ? 'text-red-600 hover:bg-white'
-              : 'text-zinc-500 hover:bg-white hover:text-red-600',
+              ? 'text-favorite'
+              : 'text-app-muted hover:text-favorite',
         ].join(' ')}
         aria-label={
           isRemoveAction

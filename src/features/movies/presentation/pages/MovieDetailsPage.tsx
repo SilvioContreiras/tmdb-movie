@@ -26,7 +26,20 @@ function formatReleaseDate(value: string | null): string {
     return value
   }
 
-  return new Intl.DateTimeFormat('pt-BR').format(date)
+  return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long' }).format(date)
+}
+
+function HeartIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="size-5"
+      aria-hidden
+      fill="currentColor"
+    >
+      <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+    </svg>
+  )
 }
 
 export function MovieDetailsPage() {
@@ -38,7 +51,7 @@ export function MovieDetailsPage() {
 
   if (!movieId) {
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <ErrorState
           title="Filme inválido"
           message="O identificador informado na URL não é válido."
@@ -49,7 +62,7 @@ export function MovieDetailsPage() {
 
   if (isPending) {
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <Spinner label="Carregando detalhes do filme..." />
       </main>
     )
@@ -62,7 +75,7 @@ export function MovieDetailsPage() {
         : 'Não foi possível carregar os detalhes do filme.'
 
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <ErrorState message={message} onRetry={() => void refetch()} />
       </main>
     )
@@ -74,9 +87,9 @@ export function MovieDetailsPage() {
   const favorited = isFavorite(movie.id)
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-        <div className="overflow-hidden rounded-lg bg-zinc-200 ring-1 ring-zinc-200">
+        <div className="overflow-hidden rounded-xl bg-app-surface ring-1 ring-app-border/60">
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -84,15 +97,15 @@ export function MovieDetailsPage() {
               className="aspect-video w-full object-cover lg:aspect-4/3"
             />
           ) : (
-            <div className="flex aspect-video items-center justify-center text-sm text-zinc-500 lg:aspect-4/3">
+            <div className="flex aspect-video items-center justify-center text-sm text-app-muted lg:aspect-4/3">
               Sem imagem disponível
             </div>
           )}
         </div>
 
         <section className="space-y-5">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold tracking-tight text-app-text sm:text-4xl">
               {movie.title}
             </h1>
 
@@ -101,35 +114,35 @@ export function MovieDetailsPage() {
                 {movie.genres.map((genre) => (
                   <li
                     key={genre.id}
-                    className="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700"
+                    className="rounded-full bg-nav-active px-3 py-1 text-xs font-medium text-white"
                   >
                     {genre.name}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-zinc-500">Gêneros não informados</p>
+              <p className="text-sm text-app-muted">Gêneros não informados</p>
             )}
           </div>
 
-          <dl className="grid gap-3 text-sm sm:grid-cols-2">
-            <div>
-              <dt className="font-medium text-zinc-500">Data de lançamento</dt>
-              <dd className="mt-1 text-zinc-900">
+          <div className="space-y-2 text-sm text-app-text">
+            <p>
+              Data de lançamento:{' '}
+              <span className="text-app-muted">
                 {formatReleaseDate(movie.releaseDate)}
-              </dd>
-            </div>
-            <div>
-              <dt className="font-medium text-zinc-500">Nota TMDB</dt>
-              <dd className="mt-1 text-zinc-900">
+              </span>
+            </p>
+            <p className="flex items-center gap-2">
+              Nota TMDB:{' '}
+              <span className="inline-flex rounded-md bg-rating px-2 py-0.5 text-xs font-bold text-app-bg">
                 {movie.voteAverage.toFixed(1)}
-              </dd>
-            </div>
-          </dl>
+              </span>
+            </p>
+          </div>
 
           <div>
-            <h2 className="text-sm font-medium text-zinc-500">Sinopse</h2>
-            <p className="mt-2 text-base leading-relaxed text-zinc-700">
+            <h2 className="text-base font-semibold text-app-text">Sinopse</h2>
+            <p className="mt-2 text-base leading-relaxed text-app-muted">
               {movie.overview.trim() || 'Sinopse não disponível.'}
             </p>
           </div>
@@ -138,14 +151,15 @@ export function MovieDetailsPage() {
             type="button"
             onClick={() => toggleFavorite(movie)}
             className={[
-              'rounded-md px-4 py-2.5 text-sm font-medium transition',
+              'inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold text-white transition',
               favorited
-                ? 'bg-zinc-900 text-white hover:bg-zinc-800'
-                : 'border border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50',
+                ? 'bg-app-surface-elevated hover:bg-app-border'
+                : 'bg-favorite hover:bg-favorite/90',
             ].join(' ')}
             aria-pressed={favorited}
           >
-            {favorited ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+            <HeartIcon />
+            {favorited ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
           </button>
         </section>
       </div>
