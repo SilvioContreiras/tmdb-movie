@@ -98,4 +98,37 @@ describe('MovieDetailsPage', () => {
       await screen.findByRole('heading', { name: 'Clube da Luta' }),
     ).toBeInTheDocument()
   })
+
+  it('exibe fallbacks quando faltam imagem, gêneros e sinopse', async () => {
+    server.use(
+      http.get(`${env.tmdbBaseUrl}/movie/:id`, () => {
+        return HttpResponse.json({
+          id: 999,
+          title: 'Filme Incompleto',
+          overview: '   ',
+          poster_path: null,
+          backdrop_path: null,
+          release_date: null,
+          vote_average: 0,
+          popularity: 0,
+          tagline: '',
+          runtime: null,
+          genres: [],
+          status: 'Released',
+          original_language: 'en',
+          vote_count: 0,
+        })
+      }),
+    )
+
+    renderDetails('/movie/999')
+
+    expect(
+      await screen.findByRole('heading', { name: 'Filme Incompleto' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/Sem imagem disponível/i)).toBeInTheDocument()
+    expect(screen.getByText(/Gêneros não informados/i)).toBeInTheDocument()
+    expect(screen.getByText(/Sinopse não disponível/i)).toBeInTheDocument()
+    expect(screen.getByText(/Data não informada/i)).toBeInTheDocument()
+  })
 })
