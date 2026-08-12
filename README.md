@@ -29,11 +29,11 @@ A barra de busca do header:
 
 ## Pré-requisitos
 
-- **Node.js ≥ 20.19** (recomendado: Node 22 via `.nvmrc`)
+- **Node.js 22+** (veja `.nvmrc`)
 - Conta no TMDB e uma **API Key (v3 auth)**
 
 ```bash
-nvm use   # ou instale Node 22+
+nvm use   # usa a versão do .nvmrc (22)
 ```
 
 ## Setup
