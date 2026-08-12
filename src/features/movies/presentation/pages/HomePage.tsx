@@ -5,6 +5,7 @@ import { ApiError } from '@/shared/api'
 import {
   ErrorState,
   InfiniteScrollSentinel,
+  MovieGridSkeleton,
   Spinner,
 } from '@/shared/ui'
 import { MovieCard } from '../components/MovieCard'
@@ -36,7 +37,8 @@ export function HomePage() {
   if (isPending) {
     return (
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <Spinner label="Carregando filmes populares..." />
+        <h1 className="sr-only">Filmes populares</h1>
+        <MovieGridSkeleton label="Carregando filmes populares..." />
       </main>
     )
   }
@@ -56,6 +58,7 @@ export function HomePage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <h1 className="sr-only">Filmes populares</h1>
       {movies.length === 0 ? (
         <p className="text-sm text-app-muted">Nenhum filme encontrado.</p>
       ) : (

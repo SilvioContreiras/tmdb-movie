@@ -9,6 +9,7 @@ import {
   ErrorState,
   HighlightedText,
   InfiniteScrollSentinel,
+  MovieGridSkeleton,
   Spinner,
 } from '@/shared/ui'
 
@@ -28,6 +29,7 @@ export function SearchPage() {
     hasNextPage,
     isFetchingNextPage,
     isFetching,
+    isPlaceholderData,
   } = useSearchMovies(query)
 
   const movies = useMemo(
@@ -37,24 +39,24 @@ export function SearchPage() {
   const totalResults = data?.pages[0]?.totalResults ?? 0
 
   const handleLoadMore = useCallback(() => {
-    if (hasNextPage && !isFetchingNextPage) {
+    if (hasNextPage && !isFetchingNextPage && !isPlaceholderData) {
       void fetchNextPage()
     }
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage])
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, isPlaceholderData])
 
   if (!canSearch) {
     return <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6" />
   }
 
-  if (isPending || (isFetching && !data)) {
+  if (isPending && !data) {
     return (
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-        <Spinner label="Buscando filmes..." />
+        <MovieGridSkeleton label="Buscando filmes..." />
       </main>
     )
   }
 
-  if (isError) {
+  if (isError && !data) {
     const message =
       error instanceof ApiError
         ? error.message
@@ -75,8 +77,14 @@ export function SearchPage() {
           <HighlightedText text={`'${query}'`} query={query} />
         </h1>
         <p className="mt-2 text-sm text-app-muted">
-          Encontrados {totalResults}{' '}
-          {totalResults === 1 ? 'filme' : 'filmes'}
+          {isPlaceholderData || (isFetching && !isFetchingNextPage) ? (
+            <>Atualizando resultados...</>
+          ) : (
+            <>
+              Encontrados {totalResults}{' '}
+              {totalResults === 1 ? 'filme' : 'filmes'}
+            </>
+          )}
         </p>
       </div>
 
@@ -86,7 +94,12 @@ export function SearchPage() {
         </p>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <div
+            className={[
+              'grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6',
+              isPlaceholderData ? 'opacity-60 transition-opacity' : '',
+            ].join(' ')}
+          >
             {movies.map((movie) => (
               <MovieCard
                 key={movie.id}
@@ -99,7 +112,7 @@ export function SearchPage() {
           </div>
 
           <InfiniteScrollSentinel
-            enabled={Boolean(hasNextPage)}
+            enabled={Boolean(hasNextPage) && !isPlaceholderData}
             onIntersect={handleLoadMore}
           />
 
@@ -107,7 +120,7 @@ export function SearchPage() {
             <Spinner label="Carregando mais resultados..." />
           ) : null}
 
-          {!hasNextPage && movies.length > 0 ? (
+          {!hasNextPage && movies.length > 0 && !isPlaceholderData ? (
             <p className="py-6 text-center text-sm text-app-muted">
               Você chegou ao fim dos resultados.
             </p>
