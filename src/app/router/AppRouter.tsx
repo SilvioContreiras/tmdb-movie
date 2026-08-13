@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from '@/app/layouts/MainLayout'
 import { paths } from '@/app/router/paths'
+import { ScrollToTop } from '@/app/router/ScrollToTop'
 import { Spinner } from '@/shared/ui'
 
 const HomePage = lazy(() =>
@@ -43,6 +44,7 @@ function RouteFallback() {
 export function AppRouter() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
           <Route
